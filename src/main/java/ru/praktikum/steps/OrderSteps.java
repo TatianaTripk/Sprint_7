@@ -6,8 +6,6 @@ import ru.praktikum.config.RestConfig;
 import ru.praktikum.model.Order;
 import ru.praktikum.model.OrderList;
 
-import java.util.Map;
-
 import static io.restassured.RestAssured.given;
 
 public class OrderSteps {
@@ -30,15 +28,6 @@ public class OrderSteps {
                 .queryParam("page", orderList.getPage() != null ? orderList.getPage() : null)
                 .when()
                 .get(RestConfig.ORDER_HANDLER)
-                .then();
-    }
-
-    @Step("Cancel order by track number")
-    public ValidatableResponse cancelOrder(int trackId) {
-        return given()
-                .body(Map.of("track", trackId))
-                .when()
-                .put(RestConfig.ORDER_CANCEL_HANDLER)
                 .then();
     }
 }

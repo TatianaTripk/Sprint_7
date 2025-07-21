@@ -6,9 +6,6 @@ public class RestConfig {
     public static final String COURIER_DELETE_HANDLER = "/api/v1/courier/{id}";
     public static final String COURIER_LOGIN_HANDLER = "/api/v1/courier/login";
     public static final String ORDER_HANDLER = "/api/v1/orders";
-    public static final String ORDER_CANCEL_HANDLER = "/api/v1/orders/cancel";
-//    public static final String GREY = "GREY";
-//    public static final String BLACK = "BLACK";
 
     public static class Colours {
         public static final String GREY = "GREY";
