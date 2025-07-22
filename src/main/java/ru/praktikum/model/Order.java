@@ -1,7 +1,10 @@
 package ru.praktikum.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Order {
     private String firstName;
     private String lastName;
@@ -12,6 +15,7 @@ public class Order {
     private String deliveryDate;
     private String comment;
     private List<String> colours;
+    private Integer track;
 
     public Order() {
     }
@@ -94,6 +98,15 @@ public class Order {
 
     public Order setColours(List<String> colours) {
         this.colours = colours;
+        return this;
+    }
+
+    public Integer getTrack() {
+        return track;
+    }
+
+    public Order setTrack(Integer track) {
+        this.track = track;
         return this;
     }
 }

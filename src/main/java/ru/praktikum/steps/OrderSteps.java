@@ -7,6 +7,7 @@ import ru.praktikum.model.Order;
 import ru.praktikum.model.OrderList;
 
 import static io.restassured.RestAssured.given;
+import static ru.praktikum.config.RestConfig.ORDER_CANCEL_HANDLER;
 
 public class OrderSteps {
 
@@ -28,6 +29,15 @@ public class OrderSteps {
                 .queryParam("page", orderList.getPage() != null ? orderList.getPage() : null)
                 .when()
                 .get(RestConfig.ORDER_HANDLER)
+                .then();
+    }
+
+    @Step("Cancel order")
+    public ValidatableResponse cancelOrder(Order order) {
+        return given()
+                .body(order)
+                .when()
+                .put(ORDER_CANCEL_HANDLER)
                 .then();
     }
 }

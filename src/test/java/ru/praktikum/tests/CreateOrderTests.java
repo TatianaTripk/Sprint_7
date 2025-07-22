@@ -2,6 +2,7 @@ package ru.praktikum.tests;
 
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -18,7 +19,10 @@ import static ru.praktikum.config.RestConfig.Colours.GREY;
 @RunWith(Parameterized.class)
 public class CreateOrderTests extends BaseTest {
     private final OrderSteps orderSteps = new OrderSteps();
+    private final Order order = new Order();
     private final List<String> colours;
+    private boolean isOrderCreated = false;
+    private ValidatableResponse response;
 
     public CreateOrderTests(String[] colours) {
         this.colours = Arrays.asList(colours);
@@ -36,7 +40,7 @@ public class CreateOrderTests extends BaseTest {
 
     @Test
     public void createOrderWithDifferentColorsTest() {
-        Order order = new Order()
+        order
                 .setFirstName("Nikolay")
                 .setLastName("Nikolayev")
                 .setAddress("Petrova, 142")
@@ -47,9 +51,18 @@ public class CreateOrderTests extends BaseTest {
                 .setComment("Fast and Furious")
                 .setColours(colours);
 
-        ValidatableResponse response = orderSteps.createOrder(order);
+        response = orderSteps.createOrder(order);
         response
                 .statusCode(201)
                 .body("track", Matchers.is(notNullValue()));
+        isOrderCreated = true;
+    }
+
+    @After
+    public void tearDown() {
+        if (isOrderCreated) {
+            order.setTrack(response.extract().body().path("track"));
+            orderSteps.cancelOrder(order);
+        }
     }
 }
